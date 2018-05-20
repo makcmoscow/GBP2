@@ -3,7 +3,7 @@ from time import time
 
 def f_presence(account_name):
     presence = {
-        'action': 'presence',
+        'actibon': 'presence',
         'time': time(),
         'type': 'status',
         'user': {

@@ -5,14 +5,14 @@ from type_msg import *
 import jim
 
 
-def send(soc, bjmessage):
-    soc.send(bjmessage)
+def send(sock, bjmessage):
+    sock.send(bjmessage)
 
-def recv(soc):
-    bjdata = soc.recv(1024)
+def recv(sock):
+    bjdata = sock.recv(1024)
     return bjdata
 
-def resalt(data):
+def result(data):
     if data['response'] == 200:
         return data['alert']
     else:
@@ -26,11 +26,14 @@ def param():
         port = int(sys.argv[2])
     return (addr, port)
 
-name = input('Введите ваше имя: ')
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-    sock.connect(param())
-    data = jim.f_encode(f_presence(name))
-    send(sock, data)
-    response = recv(sock)
+if __name__ == '__main__':
 
-    print(resalt(jim.f_decode(response)))
+    name = input('Введите ваше имя: ')
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.connect(param())
+        pres = f_presence(name)
+        data = jim.f_encode(pres)
+        send(sock, data)
+        response = recv(sock)
+
+        print(result(jim.f_decode(response)))
